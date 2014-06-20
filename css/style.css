@@ -452,6 +452,7 @@ header p{
 header .technology{
 	margin-top:10px;
 	margin-bottom:10px;
+  line-height: 250%;
 }
 
 
@@ -460,7 +461,6 @@ header .technology h4{
 	font-family: 'Open Sans Condensed', sans-serif;
 	font-weight:bold;
 	display:inline-block;
-	margin-bottom:40px;
 }
 
 .technology .onemation {
