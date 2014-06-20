@@ -13,7 +13,7 @@
   // Initialize the defaults
   window.AA_CONFIG = window.AA_CONFIG || {};
   window.AA_CONFIG = $.extend({
-    animationLength:  750,
+    animationLength:  450,
     easingFunction:   'linear'
   }, window.AA_CONFIG );
 
@@ -26,12 +26,12 @@
     $document = $(this);
     $body     = $(document.body);
     $html     = $(document.documentElement);
-    $bodhtml  = $body.add( $html );  
+    $bodhtml  = $body.add( $html );
 
     // Scroll to the anchor on initial page load.
     scrollToHash();
 
-    // Select all anchors that have an href 
+    // Select all anchors that have an href
     // that contains `#`.
     $document.find('a[href^="#"], a[href^="."]').on('click', function(){
       var href = $(this).attr('href');
@@ -42,8 +42,8 @@
         href = '#' + href.join('#');
       }
 
-      // only scroll to element if href is equal 
-      // to hash; we'll let hashchange event 
+      // only scroll to element if href is equal
+      // to hash; we'll let hashchange event
       // handle everything else
       if ( href === location.hash )
         scrollToHash( href )
@@ -58,8 +58,8 @@
     // Cancel scroll if user interacts with page.
     $window.on('mousewheel DOMMouseScroll touchstart mousedown MSPointerDown', function(ev){
       // the true clears the queue
-      // the false disables jump-to-end 
-      $bodhtml.stop(true, false);  
+      // the false disables jump-to-end
+      $bodhtml.stop(true, false);
     });
 
   })
@@ -87,7 +87,7 @@
     // Store the arbitrary anchor element.
     var $arbitraryAnchor  = $(hash).first();
     if ( $arbitraryAnchor && $arbitraryAnchor.length ) {
-      var $el = $arbitraryAnchor;      
+      var $el = $arbitraryAnchor;
     } else {
       return;
     }
