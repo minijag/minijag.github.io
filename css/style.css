@@ -368,15 +368,15 @@ header h1{
 	opacity:0;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	animation-duration: 1s;
-    animation-delay:2s;
+    animation-delay:1.2s;
     -webkit-animation-duration: 1s;
-    -webkit-animation-delay: 2s;
+    -webkit-animation-delay: 1.2s;
     -moz-animation-duration: 1s;
-    -moz-animation-delay:2s;
+    -moz-animation-delay:1.2s;
     -ms-animation-duration: 1s;
-    -ms-animation-delay: 2s;
+    -ms-animation-delay: 1.2s;
     -o-animation-duration: 1s;
-    -o-animation-delay: 2s;
+    -o-animation-delay: 1.2s;
 }
 
 header h2{
@@ -406,15 +406,15 @@ header .head-bar .head-item{
 	opacity:0;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	animation-duration: 1s;
-    animation-delay:3s;
+    animation-delay:1.95s;
     -webkit-animation-duration: 1s;
-    -webkit-animation-delay: 3s;
+    -webkit-animation-delay: 1.95s;
     -moz-animation-duration: 1s;
-    -moz-animation-delay:3s;
+    -moz-animation-delay:1.95s;
     -ms-animation-duration: 1s;
-    -ms-animation-delay: 3s;
+    -ms-animation-delay: 1.95s;
     -o-animation-duration: 1s;
-    -o-animation-delay: 3s;
+    -o-animation-delay: 1.95s;
 }
 
 header .head-bar .head-item h3{
