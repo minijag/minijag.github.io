@@ -32,7 +32,7 @@
 				<div class="navigation">
 					<div class="nav-list  br-white">
 						<ul>
-							<li><a href="#.home" id="button">Home</a></li><!-- Link -->
+							<li><a class="trackable" name="foo" href="#.home">Home</a></li><!-- Link -->
 							<li><a href="#.experienceinfo">Experience</a></li><!-- Link -->
 							<li><a href="#.works">Works</a></li><!-- Link -->
 							<li><a href="#.contactinfo">Contact</a></li><!-- Link -->
@@ -436,8 +436,8 @@
 		<script src="js/custom.js"></script>
 
 		<script>
-			$('#button').on('click', function() {
-			  ga('send', 'event', 'button', 'click', 'nav-buttons');
+			$('.trackable').on('click', function(element) {
+			  ga('send', 'event', element.name, 'click', 'nav-bar');
 			});
 		</script>
 	</body>
