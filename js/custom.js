@@ -128,10 +128,10 @@ $('.contact-item').waypoint(function(down) {
 	$(this).addClass('bounceInLeft');
 }, { offset: '70%' });
 
-$('.contact-social').waypoint(function(down) {
-	$(this).addClass('animation');
-	$(this).addClass('fadeInDown');
-}, { offset: '70%' });
+// $('.contact-social').waypoint(function(down) {
+// 	$(this).addClass('animation');
+// 	$(this).addClass('fadeInDown');
+// }, { offset: '70%' });
 
 $('.contact-one').waypoint(function(down) {
   $(this).addClass('animation');
