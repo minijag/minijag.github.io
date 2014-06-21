@@ -436,8 +436,8 @@
 		<script src="js/custom.js"></script>
 
 		<script>
-			$('.trackable').on('click', function(element) {
-			  ga('send', 'event', element.name, 'click', 'nav-bar');
+			$('.trackable').on('click', function(e) {
+			  ga('send', 'event', e.name, 'click', 'nav-bar');
 			});
 		</script>
 	</body>
