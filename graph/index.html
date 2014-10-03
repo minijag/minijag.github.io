@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <title>Informa IS: UI Developer Candidate Coding Task</title>
+  </head>
+  <body>
+    <h1>Informa IS: UI Developer Candidate Coding Task</h1>
+    <table border=1>
+      <tr>
+        <td width=50%> <!-- Column Begins -->
+          <p>
+            <h2>Instructions</h2>
+            <h4>Part 1</h4>
+            <ol>
+              <li>
+                Using HTML and Javascript, plot the following data on a chart (as points, with Risk on the x-axis and return on the y-axis): <br>
+                <table id='tb' border=1>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Product</th>
+                    <th>Risk (σ)</th>
+                    <th>3yr Ann. Return</th>
+                  </tr>
+                  <tr id='FMAGX'>
+                    <td>FMAGX</td>
+                    <td>Fidelity Magellan</td>
+                    <td>16.96%</td>
+                    <td>10.99%</td>
+                  </tr>
+                  <tr id='BFOCX'>
+                    <td>BFOCX</td>
+                    <td>Berkshire:Focus</td>
+                    <td>19.82%</td>
+                    <td>17.74%</td>
+                  </tr>
+                  <tr id='ADTRX'>
+                    <td>ADTRX</td>
+                    <td>Alpine:Trans;Inst</td>
+                    <td>19.38%</td>
+                    <td>12.84%</td>
+                  </tr>
+                  <tr id='RFG'>
+                    <td>RFG</td>
+                    <td>Guggenheim S&P MC 400 P Gro</td>
+                    <td>17.83%</td>
+                    <td>19.88%</td>
+                  </tr>
+                  <tr id='VAGGX'>
+                    <td>VAGGX</td>
+                    <td>Delaware Sel Gro;Inst</td>
+                    <td>15.04%</td>
+                    <td>19.42%</td>
+                  </tr>
+                </table>
+              </li>
+              <li>
+                Make the table above interactive, so that when the mouse cursor hovers above a row, the row is highlighted and the appropriate
+                point on the chart is highlighted. Alternatively, you can make the point on the chart highlight the row in the table, when the mouse hovers above the point.
+              </li>
+              <li>Fix any problems you see with this page (including the markup) and document your rationale.</li>
+            </ol>
+            <h4>Part 2</h4>
+            <ol>
+              <li>
+              Write a reusable component that manages the selection state of products currently shown in the chart. Internally,
+              the products are represented by unique string ids (Symbol). The following operations need to be supported:
+                <ul>
+                  <li>Changing the selection status for a product</li>
+                  <li>Querying the selection status for a product</li>
+                  <li>Setting the list of displayed products</li>
+                  <li>The component should provide a means for clients to receive notifications whenever the selection state of a product changes.</li>
+                </ul>
+              </li>
+            </ol>
+          </p>
+          <hr>
+          You may use any external libraries and modify this page as you see fit.
+        </td> <!-- Column Ends -->
+        <td> <!-- Column Begins -->
+         <!-- Chart goes here -->
+          <i>
+            <div id='drawing' style='margin-left: 50px'>  </div>
+
+          </i>
+        </td> <!-- Column Ends -->
+      </tr>
+    </table>
+
+  </body>
+  <script src='svg.js'></script>
+  <script src='SelectionManager.js'></script>
+  <script src='drawChart.js'></script>
+  <script src='launcher.js'></script>
+
+
+</html>

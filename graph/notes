@@ -1,0 +1,20 @@
+notes
+
+removed <tbody> from line 8 because it isn't needed
+added <h2> to line 12 because there was a closing </h2>
+removed <h3> from line 11 because, I feel bigger is better for headers
+
+added <ol> and <li> above line 62 to keep consistency with part one
+added </li> to line 73 to close the <li> i added
+
+added </th> to close the <th>'s on lines 18, 19, 20, 21
+added </td>'s to close all the data entries
+added </li> to line 69 to close it
+added id's to all rows for table to be able to find them
+
+added comments to when columns begin and ends to keept track of doms at glance on lines 9, 77, 78, 84
+
+I did not remove extra punctuation inside the chart, because I didn't want to assume companies names were spelled wrong.
+
+I made my own graph using svg because it was a little more challenging.
+There are a lot of great graphing and chart libraries out there that are much more aesthetically pleasing.
