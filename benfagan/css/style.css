@@ -4,7 +4,8 @@ Version:1.0
 Author:Denis Samardjiev
 */
 
-@import 'https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:100,300,700';
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:100,300,700);
+@import url(http://fonts.googleapis.com/css?family=Pacifico);
 
 /* =Common Styles
 -------------------------------------------------------------- */
@@ -1035,6 +1036,11 @@ blockquote .small, blockquote footer, blockquote small {
 }
 .card span.blue {
 	color: #352cab !important;
+}
+#red-dot-style{
+	color: #bd3d3d !important;
+	line-height: 0px;
+	font-size: 50px;
 }
 
 .txt-align-middle{
