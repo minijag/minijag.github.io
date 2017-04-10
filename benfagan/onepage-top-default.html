@@ -700,6 +700,9 @@ Discover your home in Tahoe!
 			var $grid = $('.grid').isotope({
 			    layoutMode: 'masonry'
 			});
+			$grid.imagesLoaded().progress( function() {
+				$grid.isotope('layout');
+			})
 			$('.filter-button-group').on('click', 'li', function() {
 			    var filterValue = $(this).attr('data-filter');
 			    $grid.isotope({
