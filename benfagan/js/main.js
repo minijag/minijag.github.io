@@ -186,6 +186,6 @@ if ( $(window).width() >= 767) {
 
 
 $(document).ready(function(){
-  $('body').css('opacity', 1);
+  $('header').css('opacity', 1);
   triggerReveals()
 })
