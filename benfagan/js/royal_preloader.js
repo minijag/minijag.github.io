@@ -89,9 +89,6 @@ var Royal_Preloader = {
     _cookie: !1,
     _timeout: 10,
     _init: function() {
-        JQ("img").each(function(a) {
-            JQ(this).attr("src") && Royal_Preloader._images.push(JQ(this).attr("src"))
-        });
         if (Royal_Preloader._cookie) {
             if (docCookies.getItem("melonhtml5_royal_preloader_" + Royal_Preloader._cookie)) {
                 JQ("#royal_preloader").remove();
@@ -177,7 +174,7 @@ var Royal_Preloader = {
         Royal_Preloader._processQueue()
     },
     _processQueue: function() {
-        0 !== this._image_queue.length && (this._loaded++, Royal_Preloader._animatePercentage(Royal_Preloader._percentage_loaded, parseInt(this._loaded / this._total * 100, 10)), this._reQueue())
+        0 !== this._image_queue.length && (this._loaded++, Royal_Preloader._animatePercentage(Royal_Preloader._percentage_loaded, parseInt(100, 10)), this._reQueue())
     },
     _loadFinish: function() {
         transitionEnd(this._overlay, function(a, c) {
