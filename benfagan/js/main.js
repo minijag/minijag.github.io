@@ -125,7 +125,6 @@ if (typeof sr == 'undefined') {
         delay: 50
     });
 }
-
 function triggerReveals() {
     sr.reveal('.bottomReveal', {
         origin: 'bottom'
@@ -186,4 +185,7 @@ if ( $(window).width() >= 767) {
 }
 
 
-$(document).ready(triggerReveals)
+$(document).ready(function(){
+  $('body').css('opacity', 1);
+  triggerReveals()
+})
