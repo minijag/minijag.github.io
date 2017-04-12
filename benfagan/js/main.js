@@ -125,11 +125,7 @@ if (typeof sr == 'undefined') {
         delay: 50
     });
 }
-Royal_Preloader.config({
-    onComplete: function () {
-        triggerReveals();
-    }
-});
+
 function triggerReveals() {
     sr.reveal('.bottomReveal', {
         origin: 'bottom'
@@ -169,10 +165,10 @@ $(document).on('click','.navbar-collapse.in',function(e) {
 });
 
 /* ---- rotater text ---- */
-var current = 1; 
-var height = jQuery('.ticker').height(); 
-var numberDivs = jQuery('.ticker').children().length; 
-var first = jQuery('.ticker h2:nth-child(1)'); 
+var current = 1;
+var height = jQuery('.ticker').height();
+var numberDivs = jQuery('.ticker').children().length;
+var first = jQuery('.ticker h2:nth-child(1)');
 setInterval(function() {
     var number = current * -height;
     first.css('margin-top', number + 'px');
@@ -183,8 +179,11 @@ setInterval(function() {
 }, 2500);
 
 /* ---- nav main link hover dropdown ---- */
-if ( $(window).width() >= 767) {      
-    $('.dropdown').hover(function(){ 
-        $('.dropdown-toggle', this).trigger('click'); 
+if ( $(window).width() >= 767) {
+    $('.dropdown').hover(function(){
+        $('.dropdown-toggle', this).trigger('click');
     });
-} 
+}
+
+
+$(document).ready(triggerReveals)
