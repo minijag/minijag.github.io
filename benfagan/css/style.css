@@ -1023,7 +1023,10 @@ a:focus {
 	margin: auto;
 }
 
-
+body.royal_preloader {
+    background: none;
+    visibility: hidden;
+}
 
 
 
