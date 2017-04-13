@@ -654,28 +654,24 @@ Discover your home in Tahoe!
 
 	<!-- Javascript Files -->
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArLNT3t4qsJEBmR0R9P_6ueLIQz0Jvt1M&callback=initMap" async defer></script>
-    <script type="text/javascript">
-		/* ---- Google Maps ---- */
-        function initMap() {
-            var mapOptions = {
-                zoom: 15,
-				zoomControl: false,
-				scaleControl: false,
-				scrollwheel: false,
-				disableDoubleClickZoom: true,
-                center: new google.maps.LatLng(40.6700, -73.9400), // New York
-                styles: [{"featureType":"landscape","stylers":[{"saturation":-100},{"lightness":65},{"visibility":"on"}]},{"featureType":"poi","stylers":[{"saturation":-100},{"lightness":51},{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"road.arterial","stylers":[{"saturation":-100},{"lightness":30},{"visibility":"on"}]},{"featureType":"road.local","stylers":[{"saturation":-100},{"lightness":40},{"visibility":"on"}]},{"featureType":"transit","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"administrative.province","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":-25},{"saturation":-100}]},{"featureType":"water","elementType":"geometry","stylers":[{"hue":"#ffff00"},{"lightness":-25},{"saturation":-97}]}]
-            };
-            var mapElement = document.getElementById('map');
-            var map = new google.maps.Map(mapElement, mapOptions);
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(40.6700, -73.9400),
-                map: map,
-                title: 'Our Office!'
-            });
-        }
-    </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHeQ_X47wArZa6MuoNf4Q73c9Tqdex6Oo&callback=initMap"></script>
+  <script type="text/javascript">
+	/* ---- Google Maps ---- */
+      function initMap() {
+          var mapOptions = {
+              zoom: 15,
+              disableDoubleClickZoom: true,
+              center: {lat: 38.934793, lng: -120.002172}, // Office
+          };
+          var mapElement = document.getElementById('map');
+          var map = new google.maps.Map(mapElement, mapOptions);
+          var marker = new google.maps.Marker({
+              position: {lat: 38.934549, lng: -120.002436},
+              map: map,
+              title: 'Our Office!'
+          });
+      }
+  </script>
 	<script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
 	<script type="text/javascript" src="js/isotope.pkgd.min.js"></script>
 	<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
