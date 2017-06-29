@@ -33,6 +33,7 @@
     window.onload = function() {
       FB.Event.subscribe('xfbml.render', function(response) {
         console.log('rendered.... finally!');
+        debugger;
         var shitFrame = document.getElementsByClassName('fb-page')[0].getElementsByTagName('iframe')[0];
         var iHeader = shitFrame.getElementsByTagName('head')[0];
         var iLink = document.createElement("link");
