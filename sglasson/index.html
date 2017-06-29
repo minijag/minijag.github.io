@@ -25,6 +25,14 @@
       js = d.createElement(s); js.id = id;
       js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=1492317527506431";
       js.onLoad = function() {
+
+      };
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    window.onload = function() {
+      FB.Event.subscribe('xfbml.render', function(response) {
+        console.log('rendered.... finally!');
         var shitFrame = document.getElementsByClassName('fb-page')[0].getElementsByTagName('iframe')[0];
         var iHeader = shitFrame.getElementsByTagName('head')[0];
         var iLink = document.createElement("link");
@@ -35,9 +43,8 @@
         console.log('made it');
         console.log(iHeader);
         console.log(iLink);
-      };
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+      });
+    };
   </script>
   <!--  End page loader -->
   <!--  Begin Facebook Feed -->
