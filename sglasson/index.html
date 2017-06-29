@@ -24,6 +24,16 @@
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
       js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=1492317527506431";
+      js.onLoad = function() {
+        var shitFrame = document.getElementsByClassName('fb-page')[0].getElementsByTagName('iframe')[0]
+        var iHeader = shitFrame..getElementsByTagName('head')[0]
+        var iLink = document.createElement("link");
+        iLink.rel = 'stylesheet';
+        iLink.href = './css/main.css';
+        iLink.type = 'text/css';
+
+        iHeader.appendChild(iLink);
+      };
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   </script>
@@ -31,17 +41,15 @@
   <!--  Begin Facebook Feed -->
   <div class="fb-page"
   data-href="https://www.facebook.com/Physical-Activiy-281214135683304/"
-  data-width="500"
-  data-height="100%"
   data-tabs="timeline"
   data-small-header="false"
   data-adapt-container-width="true"
-  data-hide-cover="false"
-  data-show-facepile="true">
+  data-hide-cover="true"
+  data-show-facepile="false">
     <blockquote cite="https://www.facebook.com/Physical-Activiy-281214135683304/"
     class="fb-xfbml-parse-ignore">
       <a href="https://www.facebook.com/Physical-Activiy-281214135683304/">
-        Facebook
+        Physical Activiy
       </a>
     </blockquote>
   </div>
