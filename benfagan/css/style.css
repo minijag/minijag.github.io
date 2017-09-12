@@ -1000,13 +1000,13 @@ a:focus {
 	border: 1px solid gray;
 	border-radius: 7px;
 }
-.card span.red {
+.red {
 	color: #bd3d3d !important;
 }
-.card span.green {
+.green {
 	color: #388244 !important;
 }
-.card span.blue {
+.blue {
 	color: #352cab !important;
 }
 #red-dot-style{
