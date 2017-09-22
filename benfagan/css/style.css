@@ -237,7 +237,7 @@ a:focus {
     line-height: 47px;
     font-weight: 700;
     margin-right: 20px;
-    border: 3px solid #474747;
+    border: 3px solid #d84444;
 }
 
 .lead-blurb {
@@ -449,7 +449,9 @@ a:focus {
     padding-top: 120px;
     padding-bottom: 150px;
     margin-bottom: 0;
-    background-color: #fff;
+    background-color: rgba(0, 0, 0, 0.15);
+		color: black;
+    position: relative;
 }
 
 .jumbotron p {
@@ -457,10 +459,25 @@ a:focus {
     font-weight: 300;
     margin-bottom: 20px;
 }
-
+#jumbotron-background {
+	background-image: url(../images/work/IMG_2133.jpg);
+  background-size: cover;
+  filter: blur(4px);
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
 .top-content {
     padding-left: 30px;
     border-left: 2px solid #e8e8e8;
+		background-color: rgba(234, 234, 234, 0.75);
+		padding: 20px;
+		border-radius: 4px;
+    -webkit-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.8);
+    -moz-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.8);
+    box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.8);
 }
 
 .jumbotron-down-arrow {
@@ -660,7 +677,7 @@ a:focus {
 /* =About
 -------------------------------------------------------------- */
 .icon-holder {
-    border: 3px solid #474747;
+    border: 3px solid #d84444;
     color: #474747;
     background-color: transparent;
     text-align: center;
@@ -702,18 +719,24 @@ a:focus {
 -------------------------------------------------------------- */
 .services-box {
     padding:40px 35px;
-    background-color: #fff;
+    background-color: rgba(0,0,0,0.12);
     text-align: center;
     -webkit-transition: all 0.8s ease;
     -moz-transition: all 0.8s ease;
     -o-transition: all 0.8s ease;
     transition: all 0.8s ease;
+    -webkit-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.2);
+    -moz-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.2);
+    box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.2);
 }
 
 .services-box:hover {
-    -webkit-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.13);
-    -moz-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.13);
-    box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.13);
+    -webkit-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.5);
+    -moz-box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.5);
+    box-shadow: -1px 4px 32px -3px rgba(0,0,0,0.5);
+}
+.services-box > p {
+	color: #2f2f2f
 }
 
 .light-icon {
@@ -993,7 +1016,7 @@ a:focus {
     font-size: 14px;
 }
 .logo-red {
-	color: #d81818;
+	color: #d84444;
 }
 .card {
 	padding: 10px;
