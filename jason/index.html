@@ -1,0 +1,506 @@
+<html>
+
+<head>
+  <title>Jason General Contracting</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Montserrat:400" rel="stylesheet">
+  <style>
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+
+    /* HTML5 display-role reset for older browsers */
+
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
+      display: block;
+    }
+
+    body {
+      line-height: 1;
+    }
+
+    ol,
+    ul {
+      list-style: none;
+    }
+
+    blockquote,
+    q {
+      quotes: none;
+    }
+
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
+      content: '';
+      content: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    /* apply a natural box layout model to all elements, but allowing components to change */
+
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+  </style>
+
+
+  <!-- /////////////////////// reset -->
+  <!-- /////////////////////// mainstyles -->
+
+
+  <style>
+    body {
+      font-family: arial;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      /* min-height: 100vh; */
+    }
+
+
+
+    header {
+      display: flex;
+      flex-direction: row;
+      padding: .8em;
+      text-align: center;
+      font-size: 1.4em;
+      background-color: #fff;
+      color: #000;
+      position: fixed;
+      width: 100%;
+      transition: padding .3s;
+
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1190px 1fr;
+        /* grid-template-rows: auto 1fr auto; */
+      }
+      header {
+        display: grid;
+        grid-template-columns: 1fr 1190px 1fr;
+        grid-column: span 3;
+      }
+      footer {
+        display: grid;
+        grid-template-columns: 1fr 1190px 1fr;
+        grid-column: span 3;
+      }
+    }
+
+    .splash {
+      grid-column: span 3;
+      max-height: 250px;
+      overflow: hidden;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    nav,
+    aside {
+      background-color: rgb(197, 197, 197);
+
+    }
+
+    footer {
+      padding: 30px;
+      text-align: center;
+      font-size: 1.4em;
+      background-color: #690;
+      color: white;
+    }
+
+    h1 {
+      padding-top: .5em;
+      margin-bottom: 1em;
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: row;
+    }
+
+    li {
+      flex: 1;
+      display: inline;
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: 17px;
+      margin-right: 15px;
+    }
+
+    /* unvisited link */
+
+    /* visited link */
+
+    /* mouse over link */
+
+    /* selected link */
+
+    li>a,
+    li>a:visited,
+    li>a:hover,
+    li>a:active {
+      color: rgb(68, 79, 84);
+      letter-spacing: 1;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    header.fix-navbar {
+      padding: 5px;
+    }
+
+    .pull-left {
+      float: left;
+    }
+
+    .pull-right {
+      float: right;
+    }
+
+    .nav-wrapper-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .flex-wrapper-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 801px) {
+      .flex-wrapper-row {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    .space-between {
+      justify-content: space-between;
+    }
+
+    .flex1 {
+      flex: 1;
+    }
+
+    .jason {
+      flex: 1 1 300px;
+      text-align: left;
+      line-height: 30px;
+      margin-left: 20px;
+    }
+
+    .nav-item {
+      flex: 1;
+      align-self: center;
+    }
+
+    .service-item {
+      flex: 0 1 calc(33% - 25px);
+      margin: 12px;
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+
+    .service {
+      padding: 15px;
+    }
+
+    .service>h2 {
+      color: rgb(255, 98, 71);
+      padding: 3px;
+      font-size: 1.4em;
+      letter-spacing: 3px;
+      line-height: 40px;
+    }
+
+    @media (max-width: 415px) {
+      .service {
+        width: 300px;
+      }
+    }
+
+    .anchor {
+      position: relative;
+    }
+
+    .anchor> :first-child {
+      position: absolute;
+      top: -50px;
+    }
+
+    .logo1 {
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 2;
+    }
+
+    .logo2 {
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 2;
+    }
+  </style>
+</head>
+
+
+<body class="container">
+  <header id="navbar" class="space-between">
+    <div></div>
+    <div class="nav-wrapper-row space-between flex1">
+      <div class="jason">
+        <span class="logo1">JASON</span>
+        <span class="logo2">CONSTRUCTING</span>
+      </div>
+      <div class="nav-item">
+        <ul>
+          <li>
+            <a href="#Home">HOME</a>
+          </li>
+          <li>
+            <a href="#Services">SERVICES</a>
+          </li>
+          <li>
+            <a href="#Work">WORK</a>
+          </li>
+          <li>
+            <a href="#Contact">CONTACT</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div></div>
+  </header>
+  <div class="splash">
+    <img src="img/placeholder.jpg" />
+  </div>
+  <nav></nav>
+  <main>
+    <span class="anchor">
+      <a id="Home"></a>
+    </span>
+    <h1>Main</h1>
+    <p>It might be said that Jason's journey from boyhood on the Moon to launching a high-end general contracting firm in Tahoe
+      was a circuitous one. Jason grew up in a household where design/build was a dominant influence. His father, a successful
+      developer in Neptune, surrounded his son with building plans, blueprints, contractors, and deathstars from an early
+      age, making the family business almost second nature to him. But instead of taking his father’s lead, Jason designed
+      his own roadmap to success. By embarking on a series of adventures – most notably, five years as a professional space
+      pirate, moondancer, and astro engineer. While design/build is an industry often defined by materials, Jason sees it
+      more as a people business: for him, success hinges upon building the ultimate team, developing respected partnerships,
+      and delivering clear, transparent communication. Regularly collaborating with top tier architects and designers to
+      animate a client’s vision, he instills in his staff the importance of knowing their role in the bigger picture – that
+      is, shepherding the client through the process, understanding the designer’s intent, and holding full accountability
+      for the project’s budget, quality and timeline. Jason also champions a culture of core values. He has assembled a remarkable
+      team of bright, dynamic, and motivated professionals who share their knowledge without hesitation and consistently
+      strive to deliver the company’s core values. They are integral to the company’s ability to flawlessly execute upwards
+      of 30 projects a year. Jason has an intuitive understanding of the world of construction. His enthusiasm and energy
+      are contagious, as is his passion for making and creating. He sees endless possibilities with each new day.</p>
+    <span class="anchor">
+      <a id="Services"></a>
+    </span>
+    <h1>Services</h1>
+    <div class="flex-wrapper-row">
+      <div class="service-item">
+        <div class="service">
+          <h2>RESIDENTIAL</h2>
+          We will build your home the way we'd build a loved family member's home. You will enjoy the clear and concise communication
+          and will always know where we are with the budget and timeline. No surprises just a beautiful process as you make
+          your space into a home for your family and friends.
+        </div>
+      </div>
+      <div class="service-item">
+        <div class="service">
+          <h2>COMMERICIAL</h2>
+          Commercial construction in Tahoe is driven by time and budget. Having a team with 1000+ years of experience will take the
+          guesswork out of your commercial project. Our process will reduce your management time and you won't ever look
+          for another contractor in Tahoe.
+        </div>
+      </div>
+      <div class="service-item">
+        <div class="service">
+          <h2>RETAIL</h2>
+          Nothing is more important in a retail project than making your store perfect and delivering on-time. Working with your amazing
+          design team and our extraordinary execution you will be delighted when we deliver your store on-time and on-budget
+          with superb quality.
+        </div>
+      </div>
+    </div>
+    <span class="anchor">
+      <a id="Work"></a>
+    </span>
+    <h1>Work</h1>
+    <div class="flex-wrapper-row">
+      <div class="service-item">
+        <img src="img/1.jpg" /> </div>
+      <div class="service-item">
+        <img src="img/2.jpg" />
+      </div>
+      <div class="service-item">
+        <img src="img/3.jpg" />
+      </div>
+      <div class="service-item">
+        <img src="img/4.jpg" />
+      </div>
+      <div class="service-item">
+        <img src="img/5.jpg" />
+      </div>
+      <div class="service-item">
+        <img src="img/6.jpg" />
+      </div>
+    </div>
+  </main>
+  <aside></aside>
+  <footer>
+    <div></div>
+    <div>
+
+      <span class="anchor">
+        <a id="Contact"></a>
+      </span>
+      Jason General Contracting xxx-xxx-xxxx email@gmail.com pobox 1234
+    </div>
+    <div></div>
+  </footer>
+
+
+  <script>
+    var navbar = document.getElementById("navbar");
+    var offsetTop = navbar.offsetTop;
+
+    window.onscroll = function (e) {
+      var pageYOffset = window.pageYOffset;
+
+      if (pageYOffset >= 58) {
+        navbar.classList.add('fix-navbar');
+      } else {
+        navbar.classList.remove('fix-navbar');
+      }
+
+    };
+  </script>
+</body>
+
+</html>
