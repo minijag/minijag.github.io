@@ -1,4 +1,4 @@
-import {findSlots,mergeSlots,localBusy} from './availability.mjs';
+import {findSlots,mergeSlots,localBusy} from './availability.mjs?v=all-openings-1';
 const $=selector=>document.querySelector(selector);
 const API=(window.TOGETHER_API||'').replace(/\/$/,'');
 const tokenKey='together.session.v2',inviteKey='together.invite.v2',verifierKey='together.verifier.v2';

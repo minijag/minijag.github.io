@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Together · Make time</title><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./google.css"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Together · Make time</title><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./google.css?v=all-openings-1"></head>
 <body>
 <aside class="sidebar">
   <a class="brand" href="./" aria-label="Together home"><span class="brand-icon">t<span>●</span></span>together<span class="brand-dot">.</span></a>
@@ -36,6 +36,6 @@
   <div class="page hidden" id="friends-view"><div class="eyebrow">BETTER WITH YOUR PEOPLE</div><h1>Your circle.</h1><p class="subheading">One invitation. More time together.</p><section class="card settings-card"><h2>Invite a friend</h2><p>Send a private link. When your friend signs in and accepts, you can both see each other’s busy/free times. Appointment details stay private.</p><button class="primary" id="invite-friend">Create invite link ↗</button><div id="invite-link-box" class="hidden"><label for="invite-link">Send this one-use link to your friend</label><input id="invite-link" readonly><button class="secondary-button" id="copy-invite">Copy link</button><p class="muted">Expires in 7 days. Anyone with this link can accept it once, so share it only with your intended friend.</p></div><p id="friend-message" role="status"></p></section><section class="card settings-card"><h2>Your friends</h2><div id="friends-list"></div></section><section class="card settings-card"><h2>Pending invitations</h2><div id="invitations-list"></div></section></div>
 </main>
 <dialog id="modal"><button class="close" aria-label="Close dialog">×</button><div class="eyebrow">TOGETHER</div><h2 id="modal-title"></h2><p id="modal-body"></p><form id="event-form" class="hidden"><label for="event-title">Plan name</label><input id="event-title" name="title" value="Time together" required maxlength="120"><p class="muted">Saves to your primary Google Calendar as busy. No guests are invited. Availability is checked again before saving.</p><p id="event-error" role="alert"></p><button class="primary" id="save-event" type="submit">Add to my Google Calendar</button></form><a id="saved-event" class="hidden" target="_blank" rel="noopener noreferrer">Open in Google Calendar ↗</a><button class="primary" id="modal-done">Got it</button></dialog>
-<script src="./config.js"></script><script type="module" src="./app.mjs"></script>
+<script src="./config.js"></script><script type="module" src="./app.mjs?v=all-openings-1"></script>
 </body></html>
 
