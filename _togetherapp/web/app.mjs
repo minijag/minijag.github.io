@@ -8,7 +8,7 @@ const palette=[['#47705b','#e5ece5'],['#ba8355','#f3e7dc'],['#8476ac','#eae5f2']
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const dateFor=day=>{const d=new Date(base);d.setDate(d.getDate()+day);return d;};
 const dateLabel=day=>dateFor(day).toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
-const time=hour=>{const mins=Math.round(hour*60);return `${Math.floor(mins/60)%12||12}${mins%60?':'+String(mins%60).padStart(2,'0'):''} ${mins>=720?'PM':'AM'}`;};
+const time=hour=>{const mins=Math.round(hour*60)%1440;return `${Math.floor(mins/60)%12||12}${mins%60?':'+String(mins%60).padStart(2,'0'):''} ${mins>=720?'PM':'AM'}`;};
 const members=()=>me?[{...me,name:'You'},...friends]:[];
 const avatar=(person,index=0)=>{const [color,pale]=palette[index%palette.length];return `<span class="avatar" style="background:${pale};color:${color}">${esc(person.name.trim().slice(0,2).toUpperCase())}</span>`;};
 async function api(path,input){const res=await fetch(API+path,{method:input===undefined?'GET':'POST',headers:{...(input===undefined?{}:{'Content-Type':'application/json'}),...(bearer?{Authorization:'Bearer '+bearer}:{})},body:input===undefined?undefined:JSON.stringify(input)});let data;try{data=await res.json();}catch{throw Error('The server is offline or unavailable. Please try again later.');}if(!res.ok){if(res.status===401){bearer='';sessionStorage.removeItem(tokenKey);}throw Error(data.error||'Request failed.');}return data;}
@@ -22,14 +22,30 @@ function renderChips(){
   $('#friend-chips').innerHTML=members().map((p,i)=>`<button class="friend-chip ${selected.has(p.id)?'selected':''}" data-person="${p.id}" aria-pressed="${selected.has(p.id)}">${avatar(p,i)}${esc(p.name)}<span class="check">${selected.has(p.id)?'✓':'+'}</span></button>`).join('')||'<span class="muted">Sign in to see your calendar and invite your people.</span>';
   document.querySelectorAll('[data-person]').forEach(b=>b.onclick=async()=>{const id=b.dataset.person;if(id===me?.id)return;selected.has(id)?selected.delete(id):selected.add(id);showAll=false;await syncCalendar();});
 }
+const calendarScroller=$('.calendar-scroll');
+let viewHour=16,scrollTimer;
+$('#time-window').innerHTML=Array.from({length:19},(_,hour)=>`<option value="${hour}" ${hour===16?'selected':''}>${time(hour)} – ${time(hour+6)}</option>`).join('');
+function updateWindow(hour,move=false){
+  viewHour=Math.max(0,Math.min(18,Math.round(hour)));
+  $('#start').value=viewHour;$('#end').value=viewHour+6;$('#time-window').value=viewHour;
+  $('#visible-hours').textContent=`${time(viewHour)} – ${time(viewHour+6)}`;
+  $('#earlier-hours').disabled=viewHour===0;$('#later-hours').disabled=viewHour===18;
+  if(move)calendarScroller.scrollTo({top:viewHour*60,behavior:'instant'});
+  computeSlots();renderResults();
+}
+$('#time-window').onchange=()=>updateWindow(+$('#time-window').value,true);
+$('#earlier-hours').onclick=()=>updateWindow(viewHour-6,true);
+$('#later-hours').onclick=()=>updateWindow(viewHour+6,true);
+document.querySelectorAll('[data-hour]').forEach(b=>b.onclick=()=>updateWindow(+b.dataset.hour,true));
+calendarScroller.addEventListener('scroll',()=>{clearTimeout(scrollTimer);scrollTimer=setTimeout(()=>updateWindow(calendarScroller.scrollTop/60),100);},{passive:true});
 function renderCalendar(){
   $('#week-range').textContent=`${dateFor(week*7).toLocaleDateString(undefined,{month:'long',day:'numeric'})} – ${dateFor(week*7+6).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})}`;
   $('#prev-week').disabled=week===0;$('#next-week').disabled=week===1;
-  let html='<div></div>';for(let i=0;i<7;i++){const d=dateFor(week*7+i);html+=`<div class="day-head ${d.toDateString()===new Date().toDateString()?'today':''}">${d.toLocaleDateString(undefined,{weekday:'short'}).toUpperCase()}<strong>${d.getDate()}</strong></div>`;}
-  const start=+$('#start').value,end=+$('#end').value,span=end-start;
+  let html='<div class="day-head gutter-head"></div>';for(let i=0;i<7;i++){const d=dateFor(week*7+i);html+=`<div class="day-head ${d.toDateString()===new Date().toDateString()?'today':''}">${d.toLocaleDateString(undefined,{weekday:'short'}).toUpperCase()}<strong>${d.getDate()}</strong></div>`;}
+  const start=0,end=24,span=24;
   const hours=Array.from({length:Math.max(0,Math.floor(span)+1)},(_,i)=>start+i);
   html+='<div class="time-gutter">'+hours.map(h=>`<span style="top:${(h-start)/span*100}%">${time(h)}</span>`).join('')+'</div>';
-  const chosen=members().filter(p=>selected.has(p.id)),windows=mergeSlots(slots);
+  const chosen=members().filter(p=>selected.has(p.id)),windows=mergeSlots(calendarReady()?findSlots([...selected],{start:0,end:24,duration:+$('#duration').value,readBusy}):[]);
   const known=chosen.length&&!loading&&!loadError&&live&&chosen.every(p=>live.calendars.some(c=>c.id===p.id&&c.known));
   for(let i=0;i<7;i++){
     const day=week*7+i;html+=`<div class="day-column ${known?'':'unknown-column'}" style="--hour-size:${100/Math.max(1,span)}%">`;
@@ -42,7 +58,7 @@ function renderCalendar(){
     }
     html+='</div>';
   }
-  $('#calendar').innerHTML=html;
+  $('#calendar').innerHTML=html;calendarScroller.scrollTop=viewHour*60;
   $('#legend').innerHTML='<span><i style="background:#d77b8d"></i>Busy / unavailable</span><span><i style="background:#e5e7e2"></i>Too short / unknown</span>';
   document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{
     const day=Number(b.dataset.day);renderResults();
@@ -58,13 +74,16 @@ function renderResults(){
   document.querySelectorAll('[data-slot]').forEach(b=>b.onclick=()=>{const slot=visible[Number(b.dataset.slot)],at=hour=>{const d=dateFor(slot.day);d.setHours(0,Math.round(hour*60),0,0);return d.toISOString();};draft={id:crypto.randomUUID().replaceAll('-',''),start:at(slot.start),end:at(slot.end),people:[...selected]};modal('Make it a plan',`${dateLabel(slot.day)}, ${time(slot.start)}–${time(slot.end)} · ${Intl.DateTimeFormat().resolvedOptions().timeZone}. Works for ${chosen.map(p=>p.name).join(', ')}. Saves to your calendar only.`);$('#event-form').classList.remove('hidden');$('#modal-done').classList.add('hidden');$('#event-title').value='Time together';$('#event-title').disabled=false;$('#event-error').textContent='';$('#save-event').disabled=false;$('#save-event').textContent='Add to my Google Calendar';});
   if($('#more'))$('#more').onclick=()=>{showAll=true;renderResults();};
 }
-function render(){const ready=me?.connected&&live&&!loading&&!loadError&&live.calendars.every(c=>c.known)&&[...selected].every(id=>live.calendars.some(c=>c.id===id));slots=ready?findSlots([...selected],{start:+$('#start').value,end:+$('#end').value,duration:+$('#duration').value,readBusy}):[];renderChips();renderCalendar();renderResults();}
+function calendarReady(){return me?.connected&&live&&!loading&&!loadError&&live.calendars.every(c=>c.known)&&[...selected].every(id=>live.calendars.some(c=>c.id===id));}
+function computeSlots(){slots=calendarReady()?findSlots([...selected],{start:viewHour,end:Math.min(24,viewHour+6+Number($('#duration').value)),duration:+$('#duration').value,readBusy}).filter(s=>s.start<viewHour+6):[];}
+function render(){computeSlots();renderChips();renderCalendar();updateWindow(viewHour);}
+
 function connectionUI(){
   $('#connection-status').textContent=serviceError?'Server unavailable':me?.connected?'Connected':configured?'Ready to connect':'Not configured';
   $('#calendar-mode').textContent=me?.connected?'Live calendar':'Not connected';$('#connect').disabled=!configured||!!serviceError;$('#connect').textContent=me?'Reconnect Google Calendar ↗':'Sign in with Google ↗';
   $('#google-setup').classList.add('hidden');$('#refresh-calendar').classList.toggle('hidden',!me?.connected);$('#disconnect').classList.toggle('hidden',!me?.connected);
   $('#preview-info').textContent=me?me.name:'Sign in to Together';$('#data-label').textContent='Busy/free only · plans save to your calendar';
-  $('.results-subtitle').textContent='All matching times · start choices every 30 minutes, plus free-window boundaries. Tap green to choose a day.';$('.planner .section-heading > span').textContent='You + accepted friends';
+  $('.results-subtitle').textContent='Start times in your six-hour view · every 30 minutes, plus free-window boundaries. Plans may finish after the visible window.';$('.planner .section-heading > span').textContent='You + accepted friends';
   $('#connection-summary').textContent=me?.connected?'Connected to your primary calendar. Select friends to compare availability.':'Connect your calendar, then invite a friend to share busy/free times.';
   $('.profile strong').textContent=me?.name||'Your space';$('.profile small').textContent=me?'Google account connected':'Sign in to get started';
   $('#invite-friend').disabled=!me?.connected;document.querySelector('nav small').textContent=friends.length;

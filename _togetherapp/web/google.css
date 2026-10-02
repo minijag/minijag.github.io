@@ -9,3 +9,8 @@
 #results{max-height:780px;overflow-y:auto;scroll-padding:12px;padding:4px}
 .result{scroll-margin-top:15px}.calendar-footer{flex-wrap:wrap;gap:10px}.time-gutter{font-size:8px}
 @media(max-width:760px){#results{max-height:none;overflow:visible}}
+
+.controls{grid-template-columns:1fr 2fr}.time-navigation{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:20px;font-size:12px}.time-navigation button,.time-presets button{padding:10px 12px;background:#edf2e4;color:#345a45;border-radius:8px;min-height:40px}.time-presets{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:10px 0;font-size:11px}.time-presets span{color:#74806f;flex-basis:100%}
+.calendar-scroll{height:414px;overflow:auto;overscroll-behavior:contain;padding-bottom:0;margin-top:12px;border:1px solid #e7eae2;border-radius:8px}
+#calendar{grid-template-columns:48px repeat(7,minmax(45px,1fr))}.day-column,.time-gutter{height:1440px}.day-head{position:sticky;top:0;z-index:5;background:#fff;height:54px}.gutter-head{left:0;z-index:7}.time-gutter{position:sticky;left:0;background:#fff;z-index:4}.time-gutter span{font-size:9px;padding-left:3px}.time-gutter span:last-child{transform:translateY(-100%)}.free-block{font-size:14px}
+@media(max-width:760px){.time-navigation{font-size:11px}.time-navigation button{padding:9px}.controls label{font-size:8px}.calendar-scroll{touch-action:pan-x pan-y}}
