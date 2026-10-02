@@ -1,1 +1,1 @@
-window.TOGETHER_API = "https://portland-magical-alignment-vatican.trycloudflare.com";
+window.TOGETHER_API = "https://saves-kitty-showed-every.trycloudflare.com";
