@@ -1,0 +1,13 @@
+.DS_Store
+.build/
+DerivedData/
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+.env
+.env.*
+!.env.example
+node_modules/
+.private/
+.tools/
+site-repo/
