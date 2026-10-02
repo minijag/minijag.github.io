@@ -1,4 +1,4 @@
-import {findSlots,localBusy} from './availability.mjs';
+import {findSlots,mergeSlots,localBusy} from './availability.mjs';
 const $=selector=>document.querySelector(selector);
 const API=(window.TOGETHER_API||'').replace(/\/$/,'');
 const tokenKey='together.session.v2',inviteKey='together.invite.v2',verifierKey='together.verifier.v2';
@@ -26,22 +26,35 @@ function renderCalendar(){
   $('#week-range').textContent=`${dateFor(week*7).toLocaleDateString(undefined,{month:'long',day:'numeric'})} – ${dateFor(week*7+6).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})}`;
   $('#prev-week').disabled=week===0;$('#next-week').disabled=week===1;
   let html='<div></div>';for(let i=0;i<7;i++){const d=dateFor(week*7+i);html+=`<div class="day-head ${d.toDateString()===new Date().toDateString()?'today':''}">${d.toLocaleDateString(undefined,{weekday:'short'}).toUpperCase()}<strong>${d.getDate()}</strong></div>`;}
-  html+='<div class="time-gutter">'+[17,18,19,20,21].map((h,i)=>`<span style="top:${i*25}%">${h-12} PM</span>`).join('')+'</div>';
-  const chosen=members().filter(p=>selected.has(p.id));
+  const start=+$('#start').value,end=+$('#end').value,span=end-start;
+  const hours=Array.from({length:Math.max(0,Math.floor(span)+1)},(_,i)=>start+i);
+  html+='<div class="time-gutter">'+hours.map(h=>`<span style="top:${(h-start)/span*100}%">${time(h)}</span>`).join('')+'</div>';
+  const chosen=members().filter(p=>selected.has(p.id)),windows=mergeSlots(slots);
+  const known=chosen.length&&!loading&&!loadError&&live&&chosen.every(p=>live.calendars.some(c=>c.id===p.id&&c.known));
   for(let i=0;i<7;i++){
-    const day=week*7+i;html+='<div class="day-column">';
-    for(const slot of slots.filter(s=>s.day===day)){const a=Math.max(17,slot.start),b=Math.min(21,slot.end);if(b>a)html+=`<div class="free-block" style="top:${(a-17)*25}%;height:${(b-a)*25}%" title="Shared opening">✓</div>`;}
-    chosen.forEach((person,index)=>{const record=live?.calendars.find(c=>c.id===person.id);if(!record?.known)return;for(const[start,end]of localBusy(record.busy,dateFor(day))){const a=Math.max(17,start),b=Math.min(21,end);if(b<=a)continue;const[color,pale]=palette[members().findIndex(p=>p.id===person.id)%palette.length];html+=`<div class="busy-block" style="left:${3+index*(94/chosen.length)}%;width:${Math.max(2,88/chosen.length)}%;top:${(a-17)*25}%;height:${(b-a)*25}%;background:${pale};border-color:${color}" title="${esc(person.name)} is busy, ${time(start)}–${time(end)}"></div>`;}});
+    const day=week*7+i;html+=`<div class="day-column ${known?'':'unknown-column'}" style="--hour-size:${100/Math.max(1,span)}%">`;
+    if(known&&span>0){
+      for(const person of chosen)for(const [from,to]of readBusy(person.id,day)){
+        const a=Math.max(start,from),b=Math.min(end,to);if(b<=a)continue;
+        html+=`<div class="busy-block" style="left:3%;width:94%;top:${(a-start)/span*100}%;height:${(b-a)/span*100}%" title="${esc(person.name)} unavailable, ${time(a)}–${time(b)}"></div>`;
+      }
+      for(const window of windows.filter(w=>w.day===day))html+=`<button class="free-block" data-day="${day}" style="top:${(window.start-start)/span*100}%;height:${(window.end-window.start)/span*100}%" aria-label="Choose a time on ${dateLabel(day)}, available ${time(window.start)} to ${time(window.end)}" title="${time(window.start)}–${time(window.end)} · Tap to choose">✓</button>`;
+    }
     html+='</div>';
   }
-  $('#calendar').innerHTML=html;$('#legend').innerHTML=chosen.map(p=>`<span><i style="background:${palette[members().findIndex(m=>m.id===p.id)%4][0]}"></i>${esc(p.name)}</span>`).join('');
+  $('#calendar').innerHTML=html;
+  $('#legend').innerHTML='<span><i style="background:#d77b8d"></i>Busy / unavailable</span><span><i style="background:#e5e7e2"></i>Too short / unknown</span>';
+  document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{
+    const day=Number(b.dataset.day);renderResults();
+    const first=document.querySelector(`[data-result-day="${day}"]`);first?.scrollIntoView({behavior:'smooth',block:'start'});first?.querySelector('button')?.focus({preventScroll:true});
+  });
 }
 function renderResults(){
   let message=serviceError||(!me?'Connect Google Calendar to find real openings.':!me.connected?'Reconnect your calendar to find openings.':loading?'Checking everyone’s busy/free times…':loadError||(!live?'Refresh availability to find a time.':''));
   const unknown=live?.calendars.filter(c=>!c.known)||[];if(!message&&unknown.length)message='Availability is unknown for '+unknown.map(c=>members().find(p=>p.id===c.id)?.name||'a friend').join(', ')+'. Ask them to reconnect, or remove them from this search.';
   if(message||!slots.length){$('#results').innerHTML=`<div class="empty-result">${esc(message||'No opening fits everyone. Try a shorter hangout or a wider time window.')}${!me?'<button class="primary" id="result-login">Connect Google Calendar ↗</button>':''}</div>`;if($('#result-login'))$('#result-login').onclick=startLogin;return;}
-  const visible=slots.slice(0,showAll?12:3);const chosen=members().filter(p=>selected.has(p.id));
-  $('#results').innerHTML=visible.map((s,i)=>`<article class="result ${i===0?'best':'secondary'}">${i===0?'<div class="match-label"><span></span> SOONEST SHARED OPENING</div>':''}<h3>${dateLabel(s.day)}</h3><p class="time">${time(s.start)} <small>–</small> ${time(s.end)}</p><div class="result-people">${chosen.map(p=>avatar(p,members().findIndex(m=>m.id===p.id))).join('')}<span>${chosen.length===1?'Your calendar is clear':`All ${chosen.length} of you are free`}</span></div><button data-slot="${i}">Review this plan ↗</button></article>`).join('')+(!showAll&&slots.length>3?'<button class="more-results" id="more">See more openings ↓</button>':'');
+  const visible=slots;const chosen=members().filter(p=>selected.has(p.id));
+  $('#results').innerHTML=visible.map((s,i)=>`<article data-result-day="${s.day}" class="result ${i===0?'best':'secondary'}">${i===0?'<div class="match-label"><span></span> SOONEST SHARED OPENING</div>':''}<h3>${dateLabel(s.day)}</h3><p class="time">${time(s.start)} <small>–</small> ${time(s.end)}</p><div class="result-people">${chosen.map(p=>avatar(p,members().findIndex(m=>m.id===p.id))).join('')}<span>${chosen.length===1?'Your calendar is clear':`All ${chosen.length} of you are free`}</span></div><button data-slot="${i}">Review this plan ↗</button></article>`).join('');
   document.querySelectorAll('[data-slot]').forEach(b=>b.onclick=()=>{const slot=visible[Number(b.dataset.slot)],at=hour=>{const d=dateFor(slot.day);d.setHours(0,Math.round(hour*60),0,0);return d.toISOString();};draft={id:crypto.randomUUID().replaceAll('-',''),start:at(slot.start),end:at(slot.end),people:[...selected]};modal('Make it a plan',`${dateLabel(slot.day)}, ${time(slot.start)}–${time(slot.end)} · ${Intl.DateTimeFormat().resolvedOptions().timeZone}. Works for ${chosen.map(p=>p.name).join(', ')}. Saves to your calendar only.`);$('#event-form').classList.remove('hidden');$('#modal-done').classList.add('hidden');$('#event-title').value='Time together';$('#event-title').disabled=false;$('#event-error').textContent='';$('#save-event').disabled=false;$('#save-event').textContent='Add to my Google Calendar';});
   if($('#more'))$('#more').onclick=()=>{showAll=true;renderResults();};
 }
@@ -51,7 +64,7 @@ function connectionUI(){
   $('#calendar-mode').textContent=me?.connected?'Live calendar':'Not connected';$('#connect').disabled=!configured||!!serviceError;$('#connect').textContent=me?'Reconnect Google Calendar ↗':'Sign in with Google ↗';
   $('#google-setup').classList.add('hidden');$('#refresh-calendar').classList.toggle('hidden',!me?.connected);$('#disconnect').classList.toggle('hidden',!me?.connected);
   $('#preview-info').textContent=me?me.name:'Sign in to Together';$('#data-label').textContent='Busy/free only · plans save to your calendar';
-  $('.results-subtitle').textContent='The earliest times that work for your selected people.';$('.planner .section-heading > span').textContent='You + accepted friends';
+  $('.results-subtitle').textContent='All matching times · start choices every 30 minutes, plus free-window boundaries. Tap green to choose a day.';$('.planner .section-heading > span').textContent='You + accepted friends';
   $('#connection-summary').textContent=me?.connected?'Connected to your primary calendar. Select friends to compare availability.':'Connect your calendar, then invite a friend to share busy/free times.';
   $('.profile strong').textContent=me?.name||'Your space';$('.profile small').textContent=me?'Google account connected':'Sign in to get started';
   $('#invite-friend').disabled=!me?.connected;document.querySelector('nav small').textContent=friends.length;

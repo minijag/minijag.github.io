@@ -14,7 +14,7 @@ export function busyFor(person, day) {
   };
   return schedules[person]?.[day % 7] || [];
 }
-export function findSlots(ids, {start=17,end=21,duration=2,days=14,readBusy=busyFor} = {}) {
+export function findWindows(ids, {start=17,end=21,duration=2,days=14,readBusy=busyFor} = {}) {
   if (!ids.length || start >= end || duration <= 0) return [];
   const result=[];
   for(let day=0;day<days;day++) {
@@ -22,11 +22,25 @@ export function findSlots(ids, {start=17,end=21,duration=2,days=14,readBusy=busy
     let cursor=start;
     for(const [a,b] of blocks) {
       if(b<=cursor || a>=end) continue;
-      if(a-cursor>=duration) result.push({day,start:cursor,end:cursor+duration});
+      if(a-cursor>=duration) result.push({day,start:cursor,end:a});
       cursor=Math.max(cursor,b);
     }
-    if(end-cursor>=duration) result.push({day,start:cursor,end:cursor+duration});
+    if(end-cursor>=duration) result.push({day,start:cursor,end});
   }
+  return result;
+}
+export function findSlots(ids, options = {}) {
+  const duration=options.duration??2;
+  return findWindows(ids,options).flatMap(window=>{
+    const result=[],last=window.end-duration;
+    for(let start=window.start;start<=last+1e-9;start+=.5) result.push({day:window.day,start,end:start+duration});
+    if(result.length&&last-result.at(-1).start>1e-9) result.push({day:window.day,start:last,end:window.end});
+    return result;
+  });
+}
+export function mergeSlots(slots) {
+  const result=[];
+  for(const slot of slots){const previous=result.at(-1);if(previous&&previous.day===slot.day&&slot.start<=previous.end)previous.end=Math.max(previous.end,slot.end);else result.push({...slot});}
   return result;
 }
 
